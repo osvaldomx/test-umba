@@ -28,8 +28,8 @@ def setup_db(db_file):
 
 	try:
 		connection = sqlite3.connect(db_file)
-		print(sqlite3.version)
-		print("Connection to databese created...")
+		#print(sqlite3.version)
+		#print("Connection to databese created...")
 	except Exception as e:
 		raise e
 
@@ -46,10 +46,9 @@ def setup_db(db_file):
 	try:
 		c = connection.cursor()
 		c.execute(create_table)
-		print("Database and table 'users' setup up...")
+		#print("Database and table 'users' setup up...")
 	except Error as e:
 		raise e
-
 
 	return connection
 
