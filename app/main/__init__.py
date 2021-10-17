@@ -1,4 +1,6 @@
-import os
+"""
+Test Umba v0.1
+"""
 
 from flask import Flask
 from flask_migrate import Migrate
@@ -8,31 +10,32 @@ from .database import db
 from .database.github_users import GithubUsers
 
 def create_app(config):
-	"""
-	
-	Parameters
-	----------
-	config : object
-		Object with configuration options
+    """
+    Function that create flask application.
 
-	Returns
-	-------
-	app : Flask Object
-	"""
-	app = Flask(__name__)
+    Parameters
+    ----------
+    config : object
+        Object with configuration options
 
-	app.config.from_object(config)
+    Returns
+    -------
+    app : Flask Object
+    """
+    app = Flask(__name__)
 
-	app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://osvi:123456@127.0.0.1/test_umba"
-	app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config.from_object(config)
 
-	CORS(app)
+    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://osvi:123456@127.0.0.1/test_umba"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-	with app.app_context():
-		db.init_app(app)
-		db.create_all()
+    CORS(app)
 
-	migrate = Migrate(directory="database/migrations")
-	migrate.init_app(app, db)
+    with app.app_context():
+        db.init_app(app)
+        db.create_all()
 
-	return app
+    migrate = Migrate(directory="database/migrations")
+    migrate.init_app(app, db)
+
+    return app

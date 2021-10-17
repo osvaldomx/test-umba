@@ -1,3 +1,6 @@
+import os
+import csv
+
 from . import db
 
 from marshmallow import Schema
@@ -25,3 +28,4 @@ class GithubUsersSchema(Schema):
 	avatar_url = fields.Str()
 	type = fields.Str()
 	url = fields.Str()
+
