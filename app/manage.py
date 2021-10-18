@@ -1,11 +1,11 @@
-import os
-
 from flask import Flask
 from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 
 from config import DevelopConfig
 
 from main.database import db
+from main.database.github_users import GithubUsers
 
 if __name__ == '__main__':
 	app = Flask(__name__)
@@ -15,6 +15,5 @@ if __name__ == '__main__':
 		db.init_app(app)
 		db.create_all()
 
-	dir = os.getcwd() + "/main/database/migrations"
-	migrate = Migrate(directory=dir)
+	migrate = Migrate(directory="/main/database/migrations")
 	migrate.init_app(app, db)
