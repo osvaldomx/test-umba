@@ -1,0 +1,20 @@
+version: "3"
+services:
+  database:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: postgres
+      POSTGRES_DB: test_umba
+  test:
+    image: test_umba
+    ports:
+      - "5000:5000"
+    command: python app.py
+    environment:
+      ENV: dev
+    depends_on:
+      - database

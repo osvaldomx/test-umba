@@ -102,7 +102,7 @@ if __name__ == '__main__':
 
     app.register_blueprint(profile, url_prefix="/api/users")
 
-    app.run()
+    app.run(host='0.0.0.0')
 
 # CODE TO MIGRATIONS
 app.config.from_object(DevelopConfig)

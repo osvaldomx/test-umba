@@ -16,7 +16,7 @@ def profiles(page=1):
 	page = int(request.args.get('page', '1'))
 	order = request.args.get('order_by', 'id')
 	username = request.args.get('username', None)
-	id = int(request.args.get('id', None))
+	id = int(request.args.get('id', '0'))
 
 	if order == 'id':
 		profiles_obj = GithubUsers.query.order_by(GithubUsers.id).paginate(page, per_page, False)
@@ -29,7 +29,7 @@ def profiles(page=1):
 			return response(GithubUsersSchema(many=True).
 							dump(profiles_obj))
 
-	if id:
+	if id != 0:
 		profiles_obj = GithubUsers.query.filter_by(id=id)
 		if profiles_obj:
 			return response(GithubUsersSchema(many=True).
