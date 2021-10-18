@@ -26,6 +26,8 @@ from main.seed import populate_table
 
 from main.database.github_users import GithubUsers
 
+from api.profiles import profile
+
 app = Flask(__name__)
 
 @app.errorhandler(404)
@@ -97,6 +99,8 @@ if __name__ == '__main__':
     with app.app_context():
         db.init_app(app)
         db.create_all()
+
+    app.register_blueprint(profile, url_prefix="/api/users")
 
     app.run()
 
