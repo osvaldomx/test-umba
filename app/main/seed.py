@@ -2,10 +2,12 @@
 Test Umba v0.1
 """
 from sqlite3 import Error
+from sqlite3 import IntegrityError
 
 import csv
 import os
 import requests
+import sys
 
 def setup_db(conn):
     """
@@ -63,8 +65,11 @@ def get_data(list_pages):
                                 + str(page)\
                                 + "&since="\
                                 + str(since)).json()
-        data.append(json)
-        since = json[-1]['id']
+        if json:
+            data.append(json)
+            since = json[-1]['id']
+        else:
+            since += 1
 
     with open(os.getcwd() + "/main/database/github_users.csv", 'w') as file:
         write = csv.writer(file)
@@ -113,15 +118,13 @@ def populate_table(conn, total=150):
     cursor = conn.cursor()
 
     for page in data:
-        for element in page:
+        for element in page:            
             user = (element['id'],
                     element['login'],
                     element['avatar_url'],
                     element['type'],
                     element['html_url'])
             cursor.execute(insert, user)
-
     conn.commit()
-    conn.close()
 
     return True
