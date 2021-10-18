@@ -75,11 +75,21 @@ def setup():
 @app.route('/users/<int:page>')
 def users(page=1):
     title = "GitHub Users"
-    pagination = request.args.get('pagination', 25)
+    per_page = int(request.args.get('pagination', '25'))
+    total_records = len(GithubUsers.query.all())
+    list_pags = 1
 
-    print("página {}, paginación {}".format(page, pagination))
+    if total_records > per_page:
+        list_pags = int(total_records / per_page)
+        if total_records % per_page > 0:
+            list_pags += 1
 
-    return render_template("users.html", title=title), 200
+    users_list = GithubUsers.query.paginate(page, per_page, False)
+
+    return render_template("users.html",
+                            title=title,
+                            users=users_list,
+                            pags=list_pags), 200
 
 if __name__ == '__main__':
     app.config.from_object(DevelopConfig)
@@ -88,7 +98,10 @@ if __name__ == '__main__':
         db.init_app(app)
         db.create_all()
 
+    app.run()
 
+# CODE TO MIGRATIONS
+app.config.from_object(DevelopConfig)
 db.init_app(app)
 dir = os.getcwd() + "/main/database/migrations"
 migrate = Migrate(directory=dir)

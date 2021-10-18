@@ -4,4 +4,32 @@
 
 {% block content %}
 <h1><center>{{title}}</center></h1>
+
+<div class="container">
+	{% if users %}
+		<nav aria-label="Page navigation example">
+		  <ul class="pagination">
+		  	<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+		{% for pag in range(1,pags+1) %}
+		    <li class="page-item"><a class="page-link" href="/users/{{pag}}">{{pag}}</a></li>  
+		{% endfor %}
+		<li class="page-item"><a class="page-link" href="#">Next</a></li>
+		</ul>
+		</nav>
+		<div class="row row-cols-auto">
+		{% for user in users.items %}			
+				
+				<div class="card" style="width: 12rem;">
+				  <img src="{{user.avatar_url}}" class="card-img-top" alt="avatar">
+				  <div class="card-body">
+				    <h5 class="card-title">{{user.id}} - {{user.username}}</h5>
+				    <p class="card-text">User Type: {{user.type}}</p>
+				    <a href="{{user.url}}" class="btn btn-primary" target="blank">GitHub Profile</a>
+				  </div>
+				</div>
+			
+		{% endfor %}
+		</div>
+	{% endif %}
+</div>
 {% endblock %}
